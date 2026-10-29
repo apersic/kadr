@@ -22,7 +22,7 @@ IMAGE_MODEL=flux
 IMAGE_API_KEY=
 ```
 
-Put your Pollinations key in `IMAGE_API_KEY`. `flux` is the model that still returns an image when the paid balance is 0. `gptimage-large` is the stronger model on the same service, and a call to it was refused at a cost of about 0.03 per image while the balance was 0. To use it, add credit at https://enter.pollinations.ai/top-up. Then set `IMAGE_MODEL=gptimage-large`.
+Put your Pollinations key in `IMAGE_API_KEY`. `flux` is the model that still returns an image when the paid balance is 0. `gptimage-large` is the stronger model on the same service. To use it, add credit at https://enter.pollinations.ai/top-up. Then set `IMAGE_MODEL=gptimage-large`.
 
 Start the app.
 
@@ -39,3 +39,14 @@ Answer the questions in the chat. Brand, website, Instagram, and products are re
 To try a real brand, choose **GymBeam** or type GymBeam. That brief uses https://gymbeam.hr/ and https://www.instagram.com/gymbeamhr/.
 
 When the posts appear, **Provjereno** stays closed. Open it to read what Kadr checked. **Predložak koji je otišao modelu** is also closed. **Copy message** copies one prompt that lists every image in that run.
+
+## Check the project
+
+These are the commands in `.github/workflows/prod_build.yaml`. Node comes from `.nvmrc`.
+
+```
+npm run typecheck
+npm run lint
+npm run test
+npm run build
+```

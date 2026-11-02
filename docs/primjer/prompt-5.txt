@@ -1,0 +1,25 @@
+Generate one image. Portrait, 9:16. The height is sixteen units and the width is nine.
+
+One package, centered, on a plain background. Soft daylight from one side. The only words on the package are "Vitamin C 1000 mg". No people, no price, no health claim, no second product, no bowl, no spilled food.
+
+Brand: GymBeam
+Audience: Sportaši i ljudi koji kupuju dodatke prehrani.
+Goal of this post: Spremanja na proizvodima sa stranice
+Format: Story, 9:16
+Frame, taken from the brand website. Use these values and no others:
+- Typeface: Inter
+- Text color: #000000
+- Background: #ffffff
+- Accent: #ff4100
+
+After the image, copy this text exactly. Do not draw it into the image.
+
+Natpis:
+Vitamin C 1000 mg
+
+Predmet storyja je proizvod iz brifa.
+https://gymbeam.hr/
+
+Format: Story, 9:16
+Cilj: Spremanja na proizvodima sa stranice
+Obrazloženje: Story prikazuje zadnji proizvod iz brifa, u uspravnom formatu. Istaknute priče, ako postoje, nisu otvorene.

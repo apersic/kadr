@@ -80,12 +80,25 @@ function readOpened(value: unknown): InstagramPost {
     };
 }
 
+export type StudioPrompt = {
+    label: string;
+    text: string;
+};
+
 export type StudioResult = {
     analysis: Analysis;
     frames: string[][];
-    prompt: string;
+    prompts: StudioPrompt[];
     imageNote: string;
 };
+
+function readPrompts(value: unknown): StudioPrompt[] {
+    if (!Array.isArray(value)) return [];
+    return value.flatMap((item) => {
+        if (!isRecord(item) || typeof item.text !== "string" || item.text.length === 0) return [];
+        return [{ label: readString(item.label), text: item.text }];
+    });
+}
 
 function readFrameRows(value: unknown): string[][] {
     if (!Array.isArray(value)) return [];
@@ -99,7 +112,7 @@ export function parseStudio(value: unknown): StudioResult {
     return {
         analysis: parseAnalysis(value.analysis),
         frames: readFrameRows(value.frames),
-        prompt: readString(value.prompt),
+        prompts: readPrompts(value.prompts),
         imageNote: readString(value.imageNote),
     };
 }

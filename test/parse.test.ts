@@ -35,14 +35,14 @@ const studio = {
     ],
   },
   frames: [["data:image/png;base64,aa"]],
-  prompt: "Generate all 1 images",
+  prompts: [{ label: "1. Slika, 1:1. MoiMuv Protein Milkshake", text: "Only this prompt is for one image." }],
   imageNote: "",
 };
 
 describe("parseStudio", () => {
   test("reads a studio response", () => {
     const result = parseStudio(studio);
-    expect(result.prompt).toBe("Generate all 1 images");
+    expect(result.prompts[0]?.text).toBe("Only this prompt is for one image.");
     expect(result.analysis.brief.brand).toBe("GymBeam");
     expect(result.analysis.posts[0]?.id).toBe(1);
     expect(result.frames).toEqual([["data:image/png;base64,aa"]]);

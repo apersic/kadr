@@ -60,14 +60,17 @@ export function App() {
       );
       const notes = studio.analysis.claims.map((claim) => `${claimLabel(claim.kind)}. ${claim.text}`);
       if (studio.imageNote) notes.unshift(studio.imageNote);
-      say("agent", "Tri objave. Fotografija je od modela, ili tvoja ako si je priložio. Tekst ostaje u natpisu. Ništa nije otišlo na Instagram.", {
+      say("agent", "Tri objave. Fotografija je od modela, ili tvoja ako si je priložio. Tekst ostaje u natpisu. Predlošci su odvojeni. Zalijepi jedan po jedan. Ništa nije otišlo na Instagram.", {
         posts: studio.analysis.posts.map((post, index) => ({
-          format: `${post.id}. ${post.format}`,
+          id: post.id,
+          format: post.format,
+          goal: post.goal,
           caption: post.caption,
+          why: post.why,
           images: frames[index] ?? [],
         })),
         notes,
-        prompt: studio.prompt,
+        prompts: studio.prompts,
       });
     } catch (caught) {
       say("agent", caught instanceof Error ? caught.message : "Nisam uspio složiti objave.");
@@ -145,19 +148,29 @@ export function App() {
             {message.role === "agent" ? <p className="who">Kadr</p> : null}
             <p>{message.text}</p>
             {message.posts?.map((post) => (
-              <div key={post.format} className="post">
-                <p className="kicker">{post.format}</p>
+              <div key={post.id} className="post">
                 <div className="frames">
                   {post.images.map((src, index) => (
-                    <figure key={`${post.format}-${index}`}>
+                    <figure key={`${post.id}-${index}`}>
                       <img src={src} alt={`${post.format}, kadar ${index + 1}`} />
-                      <a download={`objava-${index + 1}.png`} href={src}>
+                      <a download={`objava-${post.id}-${index + 1}.png`} href={src}>
                         Preuzmi
                       </a>
                     </figure>
                   ))}
                 </div>
-                <pre>{post.caption}</pre>
+                <dl className="post-facts">
+                  <dt>Natpis</dt>
+                  <dd>
+                    <pre>{post.caption}</pre>
+                  </dd>
+                  <dt>Format</dt>
+                  <dd>{post.format}</dd>
+                  <dt>Cilj</dt>
+                  <dd>{post.goal}</dd>
+                  <dt>Obrazloženje</dt>
+                  <dd>{post.why}</dd>
+                </dl>
               </div>
             ))}
             {message.notes && message.notes.length > 0 ? (
@@ -170,15 +183,18 @@ export function App() {
                 </ul>
               </details>
             ) : null}
-            {message.prompt ? (
-              <div className="prompt">
+            {message.prompts?.map((item, index) => (
+              <div key={`${item.label}-${index}`} className="prompt">
                 <details>
-                  <summary>Predložak koji je otišao modelu</summary>
-                  <pre>{message.prompt}</pre>
+                  <summary>{item.label}</summary>
+                  <pre>{item.text}</pre>
                 </details>
-                <CopyMessageButton text={message.prompt} />
+                <CopyMessageButton text={item.text} />
+                <a className="prompt-file" download={`prompt-${index + 1}.txt`} href={`data:text/plain;charset=utf-8,${encodeURIComponent(item.text)}`}>
+                  prompt-{index + 1}.txt
+                </a>
               </div>
-            ) : null}
+            ))}
           </article>
         ))}
         {busy ? <p className="bubble agent waiting">Čitam stranicu i čekam fotografije…</p> : null}

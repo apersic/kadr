@@ -1,6 +1,6 @@
 import { analyze } from "./analyze.mjs";
 import { generateAll } from "./images.mjs";
-import { graphicPrompt, headlineFrom, oneShotPrompt } from "./prompt.mjs";
+import { graphicPrompt, headlineFrom, separatePrompts, slideCaption } from "./prompt.mjs";
 
 function units(post) {
   if (post.id === 2 && post.slides && post.slides.length > 0) {
@@ -25,7 +25,7 @@ function lookFrom(design) {
   if (design.ink) lines.push(`- Text color: ${design.ink}`);
   if (design.paper) lines.push(`- Background: ${design.paper}`);
   if (design.accent && design.accent !== design.ink) lines.push(`- Accent: ${design.accent}`);
-  if (design.logoUrl) lines.push(`- Logo file: ${design.logoUrl}`);
+  if (design.logoUrl) lines.push(`- Logo address: ${design.logoUrl}`);
   return lines.join("\n");
 }
 
@@ -35,12 +35,17 @@ export async function studio(brief) {
   const outputs = [];
   const jobs = analysis.posts.map((post) => {
     const pieces = units(post);
-    const slides = pieces.map((unit, index) => {
+    const slides = pieces.map((unit) => {
       const source = [unit.detail, unit.title, brief.brand].find(
         (line) => line && !/instagram\.com|https?:\/\//i.test(line),
       ) || brief.brand;
-      const format = post.id === 2 ? `Carousel slide ${index + 1} of ${pieces.length}, square 1:1` : post.format;
-      outputs.push({ format, goal: post.goal, source });
+      outputs.push({
+        format: post.format,
+        goal: post.goal,
+        caption: slideCaption(post.format, post.caption, source),
+        why: post.why,
+        source,
+      });
       const headline = headlineFrom(source, brief.products, brief.brand);
       return {
         ...unit,
@@ -74,12 +79,15 @@ export async function studio(brief) {
   return {
     analysis,
     frames,
-    prompt: oneShotPrompt({
+    prompts: separatePrompts({
       brand: brief.brand,
       audience: brief.audience,
       look,
       outputs,
-    }),
+    }).map((text, index) => ({
+      label: `${index + 1}. ${outputs[index]?.format ?? ""}. ${outputs[index]?.source ?? ""}`,
+      text,
+    })),
     imageNote: missing > 0 ? `Model nije vratio ${missing} fotografija.${reason}` : "",
   };
 }

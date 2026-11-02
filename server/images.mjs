@@ -1,3 +1,51 @@
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+function jpegSize(bytes) {
+  let index = 2;
+  while (index < bytes.length - 8) {
+    if (bytes[index] !== 0xff) {
+      index += 1;
+      continue;
+    }
+    const marker = bytes[index + 1];
+    if (marker === 0xc0 || marker === 0xc1 || marker === 0xc2) {
+      return [bytes.readUInt16BE(index + 7), bytes.readUInt16BE(index + 5)];
+    }
+    index += 2 + bytes.readUInt16BE(index + 2);
+  }
+  return [0, 0];
+}
+
+export function fitStoryFrame(dataUrl) {
+  const match = String(dataUrl).match(/^data:image\/(\w+);base64,(.+)$/);
+  if (!match) return dataUrl;
+  const bytes = Buffer.from(match[2], "base64");
+  if (bytes[0] !== 0xff || bytes[1] !== 0xd8) return dataUrl;
+  const [width, height] = jpegSize(bytes);
+  const targetWidth = Math.round((height * 9) / 16);
+  if (!width || !height || height <= width || Math.abs(width - targetWidth) < 8) return dataUrl;
+  const x = Math.max(0, Math.floor((width - targetWidth) / 2));
+  const dir = mkdtempSync(join(tmpdir(), "kadr-"));
+  const input = join(dir, "in.jpg");
+  const output = join(dir, "out.jpg");
+  writeFileSync(input, bytes);
+  const result = spawnSync(
+    "ffmpeg",
+    ["-y", "-i", input, "-vf", `crop=${targetWidth}:${height}:${x}:0`, "-q:v", "2", output],
+    { stdio: "ignore" },
+  );
+  if (result.status !== 0) {
+    rmSync(dir, { recursive: true, force: true });
+    return dataUrl;
+  }
+  const cropped = readFileSync(output);
+  rmSync(dir, { recursive: true, force: true });
+  return `data:image/jpeg;base64,${cropped.toString("base64")}`;
+}
+
 function provider() {
   return (process.env.IMAGE_PROVIDER || "pollinations").toLowerCase();
 }
@@ -130,11 +178,12 @@ export async function generateAll(jobs) {
       try {
         const tall = item.slide.tall;
         const gpt = /gpt/i.test(modelName());
-        frames[item.postIndex][item.slideIndex] = await generateImage(
+        let image = await generateImage(
           item.slide.prompt,
-          1024,
+          tall && !gpt ? 720 : 1024,
           tall ? (gpt ? 1536 : 1280) : 1024,
         );
+        frames[item.postIndex][item.slideIndex] = tall ? fitStoryFrame(image) : image;
       } catch (error) {
         frames[item.postIndex][item.slideIndex] = "";
         const message = error instanceof Error ? error.message : "Model nije vratio sliku.";

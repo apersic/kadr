@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <title>Kadr, upute i osvrt</title>
+  <style>
+    @page { size: A4; margin: 14mm 16mm; }
+    body { font-family: "Segoe UI", sans-serif; font-size: 11pt; line-height: 1.35; color: #1a1814; margin: 0; }
+    h1 { font-size: 16pt; margin: 0 0 8px; }
+    h2 { font-size: 12.5pt; margin: 12px 0 4px; }
+    p { margin: 0 0 6px; }
+    code { font-family: Consolas, monospace; font-size: 10pt; }
+  </style>
+</head>
+<body>
+  <h1>Kadr. Upute i osvrt</h1>
+  <p>Kadr je lokalni chat za tri Instagram objave. Ništa se ne objavljuje. Ponavljanje ne traži ovaj razgovor. Traži Node, Google Chrome, mrežu i vlastiti ključ za model slika.</p>
+
+  <h2>Pokretanje</h2>
+  <p>U mapi projekta pokreni <code>npm install</code>. Kopiraj <code>.env.example</code> u <code>.env</code>. Ostavi <code>IMAGE_API_KEY</code> prazan dok ne upišeš svoj ključ. Zadano je <code>IMAGE_PROVIDER=pollinations</code> i <code>IMAGE_MODEL=flux</code>. Jači model na istom servisu je <code>gptimage-large</code>, uz uplatu na enter.pollinations.ai. Zatim <code>npm run dev</code> i otvori http://localhost:5174/. Port se ne mijenja.</p>
+  <p>Odgovori na pitanja u chatu. Brend, stranica, Instagram i proizvodi su obavezni. Ostalo se smije preskočiti. Za probu upiši GymBeam ili pritisni gumb. Taj brief koristi https://gymbeam.hr/ i https://www.instagram.com/gymbeamhr/, a proizvodi su MoiMuv Protein Milkshake, Proteinski chips i Vitamin C 1000 mg.</p>
+
+  <h2>Faze i rezultat</h2>
+  <p>Kadr pročita stranicu i profil u instaliranom Chromeu, složi tri objave i nacrta kadar po slici. Kvadratna objava, karusel od tri slike i story. Na svakoj kartici pišu natpis, format, cilj i kratko obrazloženje. Slike se preuzimaju s kartice. Svaka slika ima svoj predložak, datoteku prompt-1.txt i dalje. Predložak za lijepljenje traži novu fotografiju jednog pakiranja. Jedini natpis na pakiranju je ime proizvoda. Ne traži službeno pakiranje, referencu ni logo datoteku. Model u aplikaciji i dalje dobiva uputu za zatvoreno pakiranje.</p>
+  <p>Ispod slike u predlošku stoje natpis, format, cilj i obrazloženje. Tekst se ne crta u sliku. Alati su Vite, Chrome, Playwright za čitanje profila i Pollinations ili OpenAI za sliku u aplikaciji. Predložak za lijepljenje ide u drugi alat, jedan po poruci.</p>
+
+  <h2>Provjera, varijacija, ograničenja</h2>
+  <p>Provjera je na kartici. Natpis, format, cilj i obrazloženje moraju biti ispunjeni, a slika mora prikazivati proizvod iz tog predloška. U ChatGPT-u isti tekst mora stajati u odgovoru, uz jednu sliku. Predložak počinje s Generate one image. Ako odgovor nema sliku i traži referentnu fotografiju, predložak i dalje traži originalno pakiranje. Pikseli, natpis na ambalaži i sitne formulacije smiju varirati. Identitet brenda, format i cilj ne smiju. Karusel na kartici nabraja sve proizvode. Predložak jedne slike nabraja samo svoj proizvod, da alat za sliku ne ponovi prvi. Instagram ponekad ne da natpis. Tada Kadr ostaje na rečenici sa stranice i to upiše u obrazloženje. Flux na ovom servisu za story vrati širi portret, 768 puta 1280. Ako je ffmpeg na stroju, Kadr taj kadar odreže na 9:16. Uzorak je u <code>docs/primjer</code>.</p>
+
+  <h2>Vrijeme i jedna dorada</h2>
+  <p>Procjena ovog rada je oko dva sata u jednoj sesiji. To nije službeni obračun. Jedan spojeni predložak bio je prijedlog modela. ChatGPT je iz njega tri puta nacrtao prvi proizvod i za kasnije kadrove. Dorada je razdvajanje. Jedan predložak po slici, s tekstom objave izvan slike. Sljedeća dorada je tekst predloška. ChatGPT je na rečenicu o originalnom zatvorenom pakiranju odgovorio da treba referentnu sliku i vratio samo natpis. Predložak za lijepljenje sada traži novu fotografiju u bojama sa stranice. Ime proizvoda je jedini natpis na pakiranju.</p>
+
+  <h2>Daljnje unapređenje</h2>
+  <p>Sljedeća verzija bi pamtila, po predlošku, je li objava odobrena, koliko ima spremanja i što piše u komentarima. Te brojke već stoje na profilu koji Kadr otvara. Odbijen kadar mijenja samo svoj raspored i kadar, ne tuđi proizvod. Bolja verzija je ona koja na istom briefu češće pogodi imenovani proizvod, zadani format i cilj. To se broji na deset ponavljanja, ne na jednoj sretnoj slici. Ta petlja nije izgrađena.</p>
+</body>
+</html>

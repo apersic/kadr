@@ -81,7 +81,7 @@ export type Bubble = {
   id: number;
   role: "agent" | "user";
   text: string;
-  posts?: { format: string; caption: string; images: string[] }[];
+  posts?: { id: number; format: string; goal: string; caption: string; why: string; images: string[] }[];
   notes?: string[];
-  prompt?: string;
+  prompts?: { label: string; text: string }[];
 };

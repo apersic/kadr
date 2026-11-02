@@ -1,0 +1,24 @@
+Generate one image. Square, 1:1.
+
+One package, centered, on a plain background. Soft daylight from one side. The only words on the package are "Vitamin C 1000 mg". No people, no price, no health claim, no second product, no bowl, no spilled food.
+
+Brand: GymBeam
+Audience: Sportaši i ljudi koji kupuju dodatke prehrani.
+Goal of this post: Komentari
+Format: Karusel, 1:1
+Frame, taken from the brand website. Use these values and no others:
+- Typeface: Inter
+- Text color: #000000
+- Background: #ffffff
+- Accent: #ff4100
+
+After the image, copy this text exactly. Do not draw it into the image.
+
+Natpis:
+Vitamin C 1000 mg
+
+Izvor, ne nova tvrdnja.
+
+Format: Karusel
+Cilj: Komentari
+Obrazloženje: Karusel slaže proizvode iz brifa koje je stranica potvrdila, bez tuđih natpisa.

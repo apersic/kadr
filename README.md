@@ -1,6 +1,6 @@
 # Run Kadr
 
-Kadr is a local chat for three Instagram posts. You name a brand. Kadr reads that brand's website and Instagram profile, writes one prompt, and asks an image model for a square post, a carousel, and a story. Nothing is published.
+Kadr is a local chat for three Instagram posts. You name a brand. Kadr reads that brand's website and Instagram profile, writes one prompt per image, and asks an image model for a square post, a carousel, and a story. Nothing is published.
 
 The prompt text is `server/prompt.mjs`.
 
@@ -38,7 +38,7 @@ Answer the questions in the chat. Brand, website, Instagram, and products are re
 
 To try a real brand, choose **GymBeam** or type GymBeam. That brief uses https://gymbeam.hr/ and https://www.instagram.com/gymbeamhr/.
 
-When the posts appear, **Provjereno** stays closed. Open it to read what Kadr checked. **Predložak koji je otišao modelu** is also closed. **Copy message** copies one prompt that lists every image in that run.
+When the posts appear, each card shows the caption, the format, the goal, and a short rationale. **Provjereno** stays closed. Open it to read what Kadr checked. Each image has its own prompt under the posts. Copy one prompt at a time. The standalone write-up is `docs/kadr-upute.pdf`.
 
 ## Check the project
 

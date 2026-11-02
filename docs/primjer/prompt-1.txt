@@ -1,0 +1,25 @@
+Generate one image. Square, 1:1.
+
+One package, centered, on a plain background. Soft daylight from one side. The only words on the package are "MoiMuv Protein Milkshake". No people, no price, no health claim, no second product, no bowl, no spilled food.
+
+Brand: GymBeam
+Audience: Sportaši i ljudi koji kupuju dodatke prehrani.
+Goal of this post: Spremanja
+Format: Slika, 1:1
+Frame, taken from the brand website. Use these values and no others:
+- Typeface: Inter
+- Text color: #000000
+- Background: #ffffff
+- Accent: #ff4100
+
+After the image, copy this text exactly. Do not draw it into the image.
+
+Natpis:
+MoiMuv Protein Milkshake
+
+Izvor, ne nova tvrdnja.
+https://gymbeam.hr/
+
+Format: Slika, 1:1
+Cilj: Spremanja
+Obrazloženje: Prva slika je proizvod iz brifa koji je otvorena stranica potvrdila. Ne dodaje drugi proizvod.
